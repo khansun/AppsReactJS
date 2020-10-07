@@ -1,2 +1,2 @@
 # AcademicWorks
-###This repository is for academic purpose.
+### This repository is for academic purpose.
