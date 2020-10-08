@@ -30,17 +30,19 @@ const HomeScreen = (props) =>{
       <Text>    </Text>
       <Text>    </Text>
       <Text>    </Text>
-      <Text>    </Text>
+      <View style={[{ width: "80%", margin: 20, backgroundColor: "white" }]}>
       <Button
-        style = {styles.touchableText}
+       
         title="Semester Wise Course List"
         color="gold"
+        fontSize="35"
         onPress={function () {
-          props.navigation.navigate("Semester");
+          props.navigation.navigate("Semesters");
         }}
       ></Button>
       <Text>    </Text>
       <Text>    </Text>
+      
       <Button
         title="List of Faculty members"
         color="red"
@@ -48,6 +50,7 @@ const HomeScreen = (props) =>{
           props.navigation.navigate("Faculty List");
         }}
       ></Button>
+      </View>
       <Text></Text>
       <Text></Text>
         </View>
@@ -73,6 +76,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 3,
         backgroundColor: "green",
+      },
+      fixToText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
       },
     
 });

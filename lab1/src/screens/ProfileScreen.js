@@ -21,7 +21,7 @@ const ProfileScreen = () => (
         </Text>
 
         <Text>
-            <Text style={style.textS1}>Hall:</Text>
+            <Text style={style.textS1}>Hall: </Text>
             <Text style={style.textS2}>South Hall of Residence</Text>
         </Text>
         <Text>

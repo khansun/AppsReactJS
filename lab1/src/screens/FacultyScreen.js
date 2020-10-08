@@ -7,7 +7,6 @@ import {
   SectionList
 } from "react-native";
 import Constants from "expo-constants";
-import { color } from "react-native-reanimated";
 
 const FacultyData = [
   {
