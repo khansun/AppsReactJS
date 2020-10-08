@@ -1,12 +1,28 @@
 import React from "react";
-import {Text, StyleSheet} from "react-native";
-const HomeScreen = ()=>{
-    return(<Text style = {styles.textStyle}> Let's Rock! </Text>);
+import {Text, StyleSheet, Image, View} from "react-native";
+const HomeScreen = () =>{
+    return(
+        <View style={styles.viewStyle}>
+    <Image source={require("./../../assets/iut-oic.jpg")}
+    style={styles.Image}
+  ></Image>
+    <Text style = {styles.textStyle}>Department of CSE 
+         </Text>
+    <Text style = {styles.textStyle}>Programme: SWE 
+         </Text>
+        </View>
+    );
 };
 const styles = StyleSheet.create({
     textStyle:{
-        fontSize: 30,
-        color: "red",
-    }
+        alignItems:"center",
+        fontSize: 25,
+        color: "royalblue",
+        
+    },
+    viewStyle:{
+        alignItems: "center",
+        backgroundColor: "white",
+      },
 });
 export default HomeScreen;
