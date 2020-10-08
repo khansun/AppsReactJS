@@ -3,6 +3,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import {createStackNavigator} from "@react-navigation/stack";
 import HomeScreen from "./src/screens/HomeScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
+import FacultyScreen from "./src/screens/FacultyScreen";
 const stack = createStackNavigator();
 
 export default function App() {
@@ -11,6 +12,7 @@ export default function App() {
       <stack.Navigator initialRouteName="Home">
       <stack.Screen name={"                           Home"}  component ={HomeScreen}></stack.Screen>
       <stack.Screen name={"Profile"} component ={ProfileScreen}></stack.Screen>
+      <stack.Screen name={"Faculty List"} component ={FacultyScreen}></stack.Screen>
       </stack.Navigator>
       </NavigationContainer>
   );

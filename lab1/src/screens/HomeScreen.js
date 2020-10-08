@@ -45,7 +45,7 @@ const HomeScreen = (props) =>{
         title="List of Faculty members"
         color="red"
         onPress={function () {
-          props.navigation.navigate("Faculty Members");
+          props.navigation.navigate("Faculty List");
         }}
       ></Button>
       <Text></Text>
