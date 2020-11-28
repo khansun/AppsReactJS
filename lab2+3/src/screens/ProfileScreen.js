@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
-import { AuthContext } from "../providers/AuthProvider";
+import { AuthContext, AuthProvider } from "../providers/AuthProvider";
+import {removeData}   from "../functions/AsyncStorageFunctions";
 const ProfileScreen = (props) => {
   return (
     <AuthContext.Consumer>
@@ -44,7 +45,9 @@ const ProfileScreen = (props) => {
               </Text>
               <Button
               title="Delete Profile"
-              onLongPress = {() => alert("Delete this profile?")}
+              onLongPress = {function () {removeData(auth.CurrentUser.email);
+                auth.setIsLoggedIn(false);
+                auth.setCurrentUser({});}}
               />
              
             </View>
