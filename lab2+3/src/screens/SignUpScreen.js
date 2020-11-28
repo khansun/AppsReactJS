@@ -6,14 +6,16 @@ import { storeDataJSON } from "../functions/AsyncStorageFunctions";
 
 const SignUpScreen = (props) => {
   const [Name, setName] = useState("");
-  const [SID, setSID] = useState("");
   const [Email, setEmail] = useState("");
+  const [SID, setSID] = useState("");  
   const [Password, setPassword] = useState("");
 
   return (
     <View style={styles.viewStyle}>
       <Card>
-        <Card.Title>Welcome to AuthApp!</Card.Title>
+      <Card.Title>Welcome to 
+              {<Card.Title style = {{fontWeight: 'bold', fontSize: 30}}>The Office</Card.Title>}
+              </Card.Title>
         <Card.Divider />
         <Input
           leftIcon={<Ionicons name="ios-person" size={24} color="black" />}
@@ -23,19 +25,20 @@ const SignUpScreen = (props) => {
           }}
         />
         <Input
-          leftIcon={<Ionicons name="ios-school" size={24} color="black" />}
-          placeholder="Student ID"
-          onChangeText={function (currentInput) {
-            setSID(currentInput);
-          }}
-        />
-        <Input
           leftIcon={<FontAwesome name="envelope" size={24} color="black" />}
           placeholder="E-mail Address"
           onChangeText={function (currentInput) {
             setEmail(currentInput);
           }}
         />
+        <Input
+          leftIcon={<Ionicons name="ios-school" size={24} color="black" />}
+          placeholder="Student ID"
+          onChangeText={function (currentInput) {
+            setSID(currentInput);
+          }}
+        />
+        
 
         <Input
           placeholder="Password"

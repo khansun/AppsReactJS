@@ -13,7 +13,10 @@ const SignInScreen = (props) => {
       {(auth) => (
         <View style={styles.viewStyle}>
           <Card>
-            <Card.Title>Welcome to AuthApp!</Card.Title>
+            <Card.Title>Welcome to 
+              {<Card.Title style = {{fontWeight: 'bold', fontSize: 30}}>The Office</Card.Title>}
+              </Card.Title>
+            
             <Card.Divider />
             <Input
               leftIcon={<FontAwesome name="envelope" size={24} color="black" />}
@@ -67,6 +70,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     backgroundColor: "#4bacb8",
+    flexDirection: "column"
   },
 });
 export default SignInScreen;

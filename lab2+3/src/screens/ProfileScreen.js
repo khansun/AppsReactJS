@@ -54,7 +54,10 @@ const ProfileScreen = (props) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               
               <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
-                 Born on: {auth.CurrentUser.email}
+                 <Text style = {{fontWeight: 'bold'}}>
+                  Born on: 
+                   </Text>  
+                {" "}{auth.CurrentUser.email}
               </Text>
             </View>
           </Card>
@@ -62,7 +65,10 @@ const ProfileScreen = (props) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               
               <Text style={{ paddingHorizontal: 10 ,fontSize: 17 }}>
-                 Address: {auth.CurrentUser.sid}
+              <Text style = {{fontWeight: 'bold'}}>
+                  Address: 
+                   </Text>  
+                  {" "}{auth.CurrentUser.sid}
               </Text>
             </View>
           </Card>
@@ -70,7 +76,9 @@ const ProfileScreen = (props) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               
               <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}> 
-                Works at,
+              <Text style = {{fontWeight: 'bold'}}>
+                  Works at, 
+                   </Text>  
                 {"\n"}
                 {auth.CurrentUser.email}
               </Text>

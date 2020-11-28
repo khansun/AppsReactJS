@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "AuthApp",
-    "slug": "AuthApp",
+    "name": "Office Blog",
+    "slug": "OfficeBlog",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
