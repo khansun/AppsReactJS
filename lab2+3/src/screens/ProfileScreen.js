@@ -26,19 +26,53 @@ const ProfileScreen = (props) => {
             }}
           />
           <Card>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ alignItems: "center", justifyContent: "space-between",  padding: 20, margin: 10, }}>
               <Avatar
-                containerStyle={{ backgroundColor: "cyan" }}
+                containerStyle={{ backgroundColor: "red" }}
+                size="xlarge"
                 rounded
-                icon={{
-                  name: "thumbs-o-up",
-                  type: "font-awesome",
-                  color: "black",
-                }}
+                title =  {auth.CurrentUser.name.charAt(0)}
+                onPress = {() => alert("Upload a photo")}
+                
                 activeOpacity={1}
               />
-              <Text style={{ paddingHorizontal: 10 }}>
-                {auth.CurrentUser.name} Liked Your Post.
+              
+              
+              <Text> </Text>
+              <Text style={{ fontSize: 30, color: "magenta", alignItems: "center" }}>
+                {auth.CurrentUser.name} 
+              </Text>
+              <Button
+              title="Delete Profile"
+              onLongPress = {() => alert("Delete this profile?")}
+              />
+             
+            </View>
+            
+          </Card>
+          <Card>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              
+              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
+                 Born on: {auth.CurrentUser.email}
+              </Text>
+            </View>
+          </Card>
+          <Card>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              
+              <Text style={{ paddingHorizontal: 10 ,fontSize: 17 }}>
+                 Address: {auth.CurrentUser.sid}
+              </Text>
+            </View>
+          </Card>
+          <Card>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              
+              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}> 
+                Works at,
+                {"\n"}
+                {auth.CurrentUser.email}
               </Text>
             </View>
           </Card>
