@@ -57,7 +57,7 @@ const ProfileScreen = (props) => {
                  <Text style = {{fontWeight: 'bold'}}>
                   Born on: 
                    </Text>  
-                {" "}{auth.CurrentUser.email}
+                {" "}{auth.CurrentUser.dob}
               </Text>
             </View>
           </Card>
@@ -68,7 +68,7 @@ const ProfileScreen = (props) => {
               <Text style = {{fontWeight: 'bold'}}>
                   Address: 
                    </Text>  
-                  {" "}{auth.CurrentUser.sid}
+                  {" "}{auth.CurrentUser.address}
               </Text>
             </View>
           </Card>
@@ -80,7 +80,7 @@ const ProfileScreen = (props) => {
                   Works at, 
                    </Text>  
                 {"\n"}
-                {auth.CurrentUser.email}
+                {auth.CurrentUser.position}
               </Text>
             </View>
           </Card>

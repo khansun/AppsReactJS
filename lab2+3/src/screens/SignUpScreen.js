@@ -4,12 +4,15 @@ import { Input, Button, Card } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import { storeDataJSON } from "../functions/AsyncStorageFunctions";
 
+ 
+
 const SignUpScreen = (props) => {
   const [Name, setName] = useState("");
-  const [Email, setEmail] = useState("");
-  const [SID, setSID] = useState("");  
+  const [Email, setEmail] = useState("");  
   const [Password, setPassword] = useState("");
-
+  const [DOB, setDOB ]= useState("");
+  const [Address, setAddress ]= useState("");
+  const [Position, setPosition ]= useState("");
   return (
     <View style={styles.viewStyle}>
       <Card>
@@ -32,13 +35,26 @@ const SignUpScreen = (props) => {
           }}
         />
         <Input
-          leftIcon={<Ionicons name="ios-school" size={24} color="black" />}
-          placeholder="Student ID"
+          leftIcon={<Ionicons name="ios-calendar" size={26} color="black" />}
+          placeholder="Date of Birth"
           onChangeText={function (currentInput) {
-            setSID(currentInput);
+            setDOB(currentInput);
           }}
         />
-        
+        <Input
+          leftIcon={<Ionicons name="ios-pin" size={26} color="black" />}
+          placeholder="Address"
+          onChangeText={function (currentInput) {
+            setAddress(currentInput);
+          }}
+        />
+        <Input
+          leftIcon={<Ionicons name="ios-briefcase" size={26} color="black" />}
+          placeholder="Designated Position"
+          onChangeText={function (currentInput) {
+            setPosition(currentInput);
+          }}
+        />
 
         <Input
           placeholder="Password"
@@ -48,7 +64,7 @@ const SignUpScreen = (props) => {
             setPassword(currentInput);
           }}
         />
-
+       
         <Button
           icon={<AntDesign name="user" size={24} color="white" />}
           title="  Sign Up!"
@@ -56,8 +72,10 @@ const SignUpScreen = (props) => {
           onPress={function () {
             let currentUser = {
               name: Name,
-              sid: SID,
+              dob: DOB,
               email: Email,
+              address: Address,
+              position: Position,
               password: Password,
             };
             storeDataJSON(Email, currentUser);
