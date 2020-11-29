@@ -13,6 +13,7 @@ const PostCard = (props) => {
         }}
       >
         <Avatar
+          
           containerStyle={{ backgroundColor: "#ffab91" }}
           rounded
           icon={{ name: "user", type: "font-awesome", color: "black" }}
@@ -22,7 +23,8 @@ const PostCard = (props) => {
           {props.author}
         </Text>
       </View>
-      <Text style={{ fontStyle: "italic" }}> {props.title}</Text>
+      <Text style={{ fontStyle: "italic" }}> 
+      {"Posted On "}{props.title}</Text>
       <Text
         style={{
           paddingVertical: 10,
@@ -34,10 +36,14 @@ const PostCard = (props) => {
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Button
           type="outline"
-          title="  Like (17)"
+          title="  Like "
+          onPress = {function(){alert("Liked!")}}
           icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
         />
-        <Button type="solid" title="Comment (10)" />
+        <Button type="solid" title="Comment (10)"
+          onPress = {function(){alert("Add comment!")}}
+        />
+
       </View>
     </Card>
   );

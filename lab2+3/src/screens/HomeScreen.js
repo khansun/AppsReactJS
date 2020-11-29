@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  AsyncStorage,
   ScrollView,
   View,
   StyleSheet,
@@ -14,46 +15,50 @@ import {
   Input,
   Header,
 } from "react-native-elements";
-import PostCard from "./../components/PostCard";
 import { AntDesign, Entypo } from "@expo/vector-icons";
+import PostCard from "./../components/PostCard";
 import { AuthContext } from "../providers/AuthProvider";
-import { getPosts } from "./../requests/Posts";
-import { getUsers } from "./../requests/Users";
+import {getDataJSON, storeDataJSON } from "../functions/AsyncStorageFunctions";
+
+
+ 
 
 const HomeScreen = (props) => {
-  const [posts, setPosts] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  
+  const [userPostBody, setUserPostBody ]= useState("");
+  const [totalPost, setTotalPost ]= useState([]); 
+  var today = new Date();
+  var timeNow = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
 
-  const loadPosts = async () => {
-    setLoading(true);
-    const response = await getPosts();
-    if (response.ok) {
-      setPosts(response.data);
-    }
-  };
+  
 
-  const loadUsers = async () => {
-    const response = await getUsers();
-    if (response.ok) {
-      setUsers(response.data);
+  const getTotalPost = async () => {
+    try {
+      let keys = await AsyncStorage.getAllKeys();
+
+      let posts = [];
+      if (keys != null) {
+        for (let element of keys) {
+          if (element.startsWith("user") ) {
+            let post = await getDataJSON(element);
+            posts.push(post);
+          }
+        }
+        setTotalPost(posts);
+      } else {
+        console.log("post not found");
+
+      }
+    } catch (error) {
+      console.log(error);
     }
-    setLoading(false);
-  };
-  const getName = (id) => {
-    let Name = "";
-    users.forEach((element) => {
-      if (element.id == id) Name = element.name;
-    });
-    return Name;
   };
 
   useEffect(() => {
-    loadPosts();
-    loadUsers();
+    getTotalPost();
   }, []);
 
-  if (!loading) {
+
     return (
       <AuthContext.Consumer>
         {(auth) => (
@@ -80,17 +85,37 @@ const HomeScreen = (props) => {
               <Input
                 placeholder="What's On Your Mind?"
                 leftIcon={<Entypo name="pencil" size={24} color="black" />}
+                onChangeText={function (currentInput) {
+                  setUserPostBody(currentInput); }}
               />
-              <Button title="Post" type="outline" onPress={function () {}} />
+              <Button 
+              title="Post" type="outline" onPress={function () {
+             var moment = new Date().getMilliseconds;
+            let currentUserPost = {
+              postID: "user"+moment,
+              author: auth.CurrentUser.name,
+              time: timeNow, 
+              body: userPostBody,
+              likes: "0",
+              comments: "0",
+            };
+            storeDataJSON(currentUserPost.postID, currentUserPost);
+            getTotalPost();
+            setUserPostBody("");
+          }} 
+          />
+              
+    
+
             </Card>
 
             <FlatList
-              data={posts}
+              data={totalPost} 
               renderItem={function ({ item }) {
                 return (
                   <PostCard
-                    author={getName(item.userId)}
-                    title={item.title}
+                    author={item.author}
+                    title={item.time}
                     body={item.body}
                   />
                 );
@@ -100,13 +125,6 @@ const HomeScreen = (props) => {
         )}
       </AuthContext.Consumer>
     );
-  } else {
-    return (
-      <View style={{ flex: 1, justifyContent: "center" }}>
-        <ActivityIndicator size="large" color="red" animating={true} />
-      </View>
-    );
-  }
 };
 
 const styles = StyleSheet.create({

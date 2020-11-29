@@ -16,7 +16,7 @@ const ProfileScreen = (props) => {
                 props.navigation.toggleDrawer();
               },
             }}
-            centerComponent={{ text: "The Office: Profile", style: { color: "#fff" } }}
+            centerComponent={{ text: "The Office", style: { color: "#fff" } }}
             rightComponent={{
               icon: "lock-outline",
               color: "#fff",
@@ -45,7 +45,8 @@ const ProfileScreen = (props) => {
               </Text>
               <Button
               title="Delete Profile"
-              onLongPress = {function () {removeData(auth.CurrentUser.email);
+              onLongPress = {function () {
+                removeData(auth.CurrentUser.email);
                 auth.setIsLoggedIn(false);
                 auth.setCurrentUser({});}}
               />
