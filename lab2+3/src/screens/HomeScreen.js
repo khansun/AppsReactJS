@@ -29,7 +29,7 @@ const HomeScreen = (props) => {
   const [totalPost, setTotalPost ]= useState([]); 
   var today = new Date();
   var timeNow = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-
+  const input=React.createRef();
   
 
   const getTotalPost = async () => {
@@ -53,6 +53,8 @@ const HomeScreen = (props) => {
       console.log(error);
     }
   };
+ 
+
 
   useEffect(() => {
     getTotalPost();
@@ -83,6 +85,7 @@ const HomeScreen = (props) => {
             />
             <Card>
               <Input
+                ref={input}
                 placeholder="What's On Your Mind?"
                 leftIcon={<Entypo name="pencil" size={24} color="black" />}
                 onChangeText={function (currentInput) {
@@ -90,18 +93,17 @@ const HomeScreen = (props) => {
               />
               <Button 
               title="Post" type="outline" onPress={function () {
-             var moment = new Date().getMilliseconds;
+             var moment = Math.floor(Math.random() * 360);
             let currentUserPost = {
               postID: "user"+moment,
               author: auth.CurrentUser.name,
               time: timeNow, 
               body: userPostBody,
-              likes: "0",
-              comments: "0",
             };
-            storeDataJSON(currentUserPost.postID, currentUserPost);
+            storeDataJSON("user"+moment, currentUserPost);
             getTotalPost();
             setUserPostBody("");
+            input.current.clear();
           }} 
           />
               
@@ -114,9 +116,11 @@ const HomeScreen = (props) => {
               renderItem={function ({ item }) {
                 return (
                   <PostCard
+                    postID={item.postID}
                     author={item.author}
                     title={item.time}
                     body={item.body}
+                    navigation={props.navigation}
                   />
                 );
               }}
@@ -130,7 +134,7 @@ const HomeScreen = (props) => {
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 30,
-    color: "blue",
+    color: "royalblue",
   },
   viewStyle: {
     flex: 1,

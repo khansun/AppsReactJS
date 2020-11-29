@@ -14,7 +14,7 @@ const PostCard = (props) => {
       >
         <Avatar
           
-          containerStyle={{ backgroundColor: "#ffab91" }}
+          containerStyle={{ backgroundColor: "green" }}
           rounded
           icon={{ name: "user", type: "font-awesome", color: "black" }}
           activeOpacity={1}
@@ -37,11 +37,20 @@ const PostCard = (props) => {
         <Button
           type="outline"
           title="  Like "
-          onPress = {function(){alert("Liked!")}}
+          onPress = {function(){
+            alert("Liked!")}}
           icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
         />
-        <Button type="solid" title="Comment (10)"
-          onPress = {function(){alert("Add comment!")}}
+        <Button type="solid" title="Comment"
+           onPress={
+            function(){
+              let pid=props.postID;
+              props.navigation.navigate("Posts", {
+                paramKey: pid,
+              });
+            }
+          }
+          
         />
 
       </View>

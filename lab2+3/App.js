@@ -8,11 +8,13 @@ import NotificationScreen from "./src/screens/NotificationScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import SignInScreen from "./src/screens/SignInScreen";
+import PostScreen from "./src/screens/PostScreen";
 
 import { AuthContext, AuthProvider } from "./src/providers/AuthProvider";
 import { Entypo, AntDesign, Ionicons } from "@expo/vector-icons";
 const AuthStack = createStackNavigator();
 const HomeTab = createMaterialBottomTabNavigator();
+const HomeStack = createStackNavigator();
 const AppDrawer = createDrawerNavigator();
 
 const AppDrawerScreen = () => {
@@ -29,7 +31,7 @@ const HomeTabScreen = () => {
     <HomeTab.Navigator initialRouteName="Home">
       <HomeTab.Screen
         name="Home"
-        component={HomeScreen}
+        component={HomeStackScreen}
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ focused }) =>
@@ -58,6 +60,23 @@ const HomeTabScreen = () => {
         }}
       />
     </HomeTab.Navigator>
+  );
+};
+const HomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      ></HomeStack.Screen>
+      <HomeStack.Screen
+      name="Posts"
+      component={PostScreen}
+      options={{headerShown: false}}
+      >
+      </HomeStack.Screen>
+    </HomeStack.Navigator>
   );
 };
 
