@@ -46,18 +46,8 @@ const ProfileScreen = (props) => {
               <Button
               title="Delete Profile"
               onLongPress = {function () {
-                try {
-                
-                  let data =  getDataJSON(auth.CurrentUser.email);
-                  if (data != null) {
-                    const jsonData = JSON.parse(data);
-                    removeData( jsonData);
-                  } else {
-                    console.log("No data with this key!");
-                  }
-                } catch (error) {
-                  console.log(error);
-                }
+                removeData(auth.CurrentUser.email);
+                removeData(auth.CurrentUser.password);
                 auth.setIsLoggedIn(false);
                 auth.setCurrentUser({});}}
               />
