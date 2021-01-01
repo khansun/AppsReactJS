@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import * as firebase from 'firebase';
- 
+import 'firebase/firestore';
 
 const SignUpScreen = (props) => {
   const [Name, setName] = useState("");
@@ -72,10 +72,12 @@ const SignUpScreen = (props) => {
             if(Name && Email && Password && DOB && Address && Position){
               firebase.auth().createUserWithEmailAndPassword(Email, Password).
               then((userCreds)=>{
-                userCreds.user.updateProfile({displayName:Name});
-                firebase.database.ref().child('users/')
-                .child(userCreds.user.uid)
-                .set({
+                userCreds.user.updateProfile({ displayName: Name });
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(userCreds.user.uid)
+                  .set({
                   name: Name,
                   dob: DOB,
                   email: Email,
@@ -89,7 +91,7 @@ const SignUpScreen = (props) => {
                   props.navigation.navigate("SignIn");
                 })
               }).catch((error) => 
-              {alert('Error')});
+              {alert(error)});
             }
             else
             {
