@@ -3,6 +3,7 @@ import { View, StyleSheet, AsyncStorage } from "react-native";
 import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext, AuthProvider } from "../providers/AuthProvider";
 import {removeData ,getDataJSON, getData}   from "../functions/AsyncStorageFunctions";
+import * as firebase from 'firebase';
 const ProfileScreen = (props) => {
   return (
     <AuthContext.Consumer>
@@ -20,10 +21,15 @@ const ProfileScreen = (props) => {
             rightComponent={{
               icon: "lock-outline",
               color: "#fff",
-              onPress: function () {
-                auth.setIsLoggedIn(false);
-                auth.setCurrentUser({});
-              },
+              onPress: function ()  {
+                firebase.auth().signOut().then(()=>{
+                    auth.setIsLoggedIn(false);
+                    auth.setCurrentUser({});
+                    alert("Logged Out");
+                }).catch((error)=>{
+                    alert(error);
+            })
+            },
             }}
           />
           <Card>
@@ -32,7 +38,7 @@ const ProfileScreen = (props) => {
                 containerStyle={{ backgroundColor: "red" }}
                 size="xlarge"
                 rounded
-                title =  {auth.CurrentUser.name.charAt(0)}
+                title =  {firebase.auth().displayName}
                 onPress = {() => alert("Upload a photo")}
                 
                 activeOpacity={1}
@@ -41,15 +47,13 @@ const ProfileScreen = (props) => {
               
               <Text> </Text>
               <Text style={{ fontSize: 30, color: "magenta", alignItems: "center" }}>
-                {auth.CurrentUser.name} 
+                {firebase.auth().displayName} 
               </Text>
               <Button
               title="Delete Profile"
               onLongPress = {function () {
-                removeData(auth.CurrentUser.email);
-                removeData(auth.CurrentUser.password);
-                auth.setIsLoggedIn(false);
-                auth.setCurrentUser({});}}
+                alert("Delete!");}
+              }
               />
              
             </View>
@@ -62,7 +66,7 @@ const ProfileScreen = (props) => {
                  <Text style = {{fontWeight: 'bold'}}>
                   Born on: 
                    </Text>  
-                {" "}{auth.CurrentUser.dob}
+                {" "}{firebase.auth().email}
               </Text>
             </View>
           </Card>
@@ -73,7 +77,7 @@ const ProfileScreen = (props) => {
               <Text style = {{fontWeight: 'bold'}}>
                   Address: 
                    </Text>  
-                  {" "}{auth.CurrentUser.address}
+                  {" "}{firebase.auth().email}
               </Text>
             </View>
           </Card>
@@ -85,7 +89,7 @@ const ProfileScreen = (props) => {
                   Works at, 
                    </Text>  
                 {"\n"}
-                {auth.CurrentUser.position}
+                {firebase.auth().email}
               </Text>
             </View>
           </Card>
