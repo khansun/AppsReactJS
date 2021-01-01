@@ -20,8 +20,7 @@ import PostCard from "./../components/PostCard";
 import { AuthContext } from "../providers/AuthProvider";
 import {getDataJSON, storeDataJSON } from "../functions/AsyncStorageFunctions";
 
-
- 
+import * as firebase from 'firebase';
 
 const HomeScreen = (props) => {
   
@@ -77,10 +76,15 @@ const HomeScreen = (props) => {
               rightComponent={{
                 icon: "lock-outline",
                 color: "#fff",
-                onPress: function () {
-                  auth.setIsLoggedIn(false);
-                  auth.setCurrentUser({});
-                },
+                onPress: function ()  {
+                  firebase.auth().signOut().then(()=>{
+                      auth.setIsLoggedIn(false);
+                      auth.setCurrentUser({});
+                      alert("Logged Out");
+                  }).catch((error)=>{
+                      alert(error);
+              })
+              },
               }}
             />
             <Card>
