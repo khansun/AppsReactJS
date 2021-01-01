@@ -4,7 +4,7 @@ import { Input, Button, Card } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import * as firebase from 'firebase';
 import 'firebase/firestore';
-
+import Loading from './../components/Loading';
 const SignUpScreen = (props) => {
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");  
@@ -12,6 +12,13 @@ const SignUpScreen = (props) => {
   const [DOB, setDOB ]= useState("");
   const [Address, setAddress ]= useState("");
   const [Position, setPosition ]= useState("");
+  const [isLoading, setIsLoading] = useState(false);
+ if(isLoading){
+   return(
+     <Loading/>
+   )
+ } 
+ else{
   return (
     <View style={styles.viewStyle}>
       <Card>
@@ -70,6 +77,7 @@ const SignUpScreen = (props) => {
           type="solid"
           onPress={()=>{
             if(Name && Email && Password && DOB && Address && Position){
+              setIsLoading(true);
               firebase.auth().createUserWithEmailAndPassword(Email, Password).
               then((userCreds)=>{
                 userCreds.user.updateProfile({ displayName: Name });
@@ -86,12 +94,15 @@ const SignUpScreen = (props) => {
 
                 })
                 .then(()=>{
+                  setIsLoading(false);
                   alert("Acoount created successfully");
                   console.log(userCreds.user);
                   props.navigation.navigate("SignIn");
                 })
               }).catch((error) => 
-              {alert(error)});
+              { setIsLoading(false);
+                alert(error)
+              });
             }
             else
             {
@@ -112,6 +123,7 @@ const SignUpScreen = (props) => {
       </Card>
     </View>
   );
+        }
 };
 
 const styles = StyleSheet.create({

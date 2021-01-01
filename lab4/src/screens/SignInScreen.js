@@ -3,11 +3,18 @@ import { View, StyleSheet } from "react-native";
 import { Input, Button, Card } from "react-native-elements";
 import { FontAwesome, Feather, AntDesign } from "@expo/vector-icons";
 import { AuthContext } from "../providers/AuthProvider";
-import { getDataJSON } from "../functions/AsyncStorageFunctions";
+import Loading from './../components/Loading';
 import * as firebase from 'firebase';
 const SignInScreen = (props) => {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  if(isLoading){
+    return(
+      <Loading/>
+    )
+  } 
+  else{
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -40,14 +47,17 @@ const SignInScreen = (props) => {
               title="  Sign In!"
               type="solid"
               onPress = { ()=> {
+                setIsLoading(true);
                 firebase.auth()
                 .signInWithEmailAndPassword(Email, Password)
                 .then((userCreds)=>{
                   auth.setIsLoggedIn(true);
                   auth.setCurrentUser(userCreds.user);
                   console.log(userCreds.user);
-                  alert("Signed In \n Firestore User: " + userCreds.user.uid);
+                  setIsLoading(false);
+                  alert("Signed In \nCloud Firestore.users.GUID: " + userCreds.user.uid);
                 }).catch((error)=>{
+                  setIsLoading(false);
                   alert(error);
                 })
               }
@@ -67,6 +77,7 @@ const SignInScreen = (props) => {
       )}
     </AuthContext.Consumer>
   );
+            }
 };
 
 const styles = StyleSheet.create({
