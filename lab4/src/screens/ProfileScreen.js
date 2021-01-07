@@ -4,6 +4,18 @@ import { Text, Card, Button, Avatar, Header } from "react-native-elements";
 import { AuthContext, AuthProvider } from "../providers/AuthProvider";
 import {removeData ,getDataJSON, getData}   from "../functions/AsyncStorageFunctions";
 import * as firebase from 'firebase';
+var user = firebase.auth().currentUser;
+var name, email, photoUrl, uid, emailVerified;
+
+if (user != null) {
+  name = user.displayName;
+  email = user.email;
+  photoUrl = user.photoURL;
+  emailVerified = user.emailVerified;
+  uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
+                   // this value to authenticate with your backend server, if
+                   // you have one. Use User.getToken() instead.
+}
 const ProfileScreen = (props) => {
   return (
     <AuthContext.Consumer>
@@ -38,7 +50,7 @@ const ProfileScreen = (props) => {
                 containerStyle={{ backgroundColor: "red" }}
                 size="xlarge"
                 rounded
-                title =  {firebase.auth().displayName}
+                title =  {name.charAt(0)}
                 onPress = {() => alert("Upload a photo")}
                 
                 activeOpacity={1}
@@ -47,12 +59,17 @@ const ProfileScreen = (props) => {
               
               <Text> </Text>
               <Text style={{ fontSize: 30, color: "magenta", alignItems: "center" }}>
-                {firebase.auth().displayName} 
+                {name} 
               </Text>
               <Button
               title="Delete Profile"
               onLongPress = {function () {
-                alert("Delete!");}
+                user.delete().then(function() {
+                  alert("User deleted");
+                }).catch(function(error) {
+                  alert(error);
+                });
+              }
               }
               />
              
@@ -77,7 +94,7 @@ const ProfileScreen = (props) => {
               <Text style = {{fontWeight: 'bold'}}>
                   Address: 
                    </Text>  
-                  {" "}{firebase.auth().email}
+                  {" "}{email}
               </Text>
             </View>
           </Card>
@@ -89,7 +106,7 @@ const ProfileScreen = (props) => {
                   Works at, 
                    </Text>  
                 {"\n"}
-                {firebase.auth().email}
+                {uid}
               </Text>
             </View>
           </Card>
