@@ -12,19 +12,21 @@ const AuthProvider = (props) =>{
     const signUp = (email, password) =>{
         return auth.createUserWithEmailPassword(email, password);
     }
-   // useEffect(()=>{
-    //    const unsubscribe = auth.onAuthStateChanged((user)=>{
-          //  setCurrentUser(user);
-      //  });
-       // return unsubscribe;
-   // }, []);
+    useEffect(()=>{
+       const unsubscribe = auth.onAuthStateChanged((user)=>{
+            setCurrentUser(user);
+        });
+        return unsubscribe;
+    }, []);
     return(
-        <AuthContext.Provider value = {{
-            currentUser, signUp
+        <AuthContext.Provider
+         value = {{
+            currentUser, 
+            signUp
         }}>
             {props.children}
         </AuthContext.Provider>
     );
 };
 
-export {AuthContext, AuthProvider, useAuth};
+export { AuthProvider, useAuth};
