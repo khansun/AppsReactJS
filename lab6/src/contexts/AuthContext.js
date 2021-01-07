@@ -5,13 +5,20 @@ const AuthContext = React.createContext();
 
 const useAuth = ()=>{
     return useContext(AuthContext);
-}
+};
 
 const AuthProvider = (props) =>{
     const [currentUser, setCurrentUser] = useState({});
     const signUp = (email, password) =>{
         return auth.createUserWithEmailAndPassword(email, password);
-    }
+    };
+
+    const signIn = (email, password) =>{
+        return auth.signInWithEmailAndPassword(email, password);
+
+    };
+
+
     useEffect(()=>{
        const unsubscribe = auth.onAuthStateChanged((user)=>{
             setCurrentUser(user);
@@ -22,7 +29,8 @@ const AuthProvider = (props) =>{
         <AuthContext.Provider
          value = {{
             currentUser, 
-            signUp
+            signUp,
+            signIn
         }}>
             {props.children}
         </AuthContext.Provider>

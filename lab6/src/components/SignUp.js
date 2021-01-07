@@ -13,7 +13,7 @@ const SignUp = ()=>{
         e.preventDefault();
 
         if(passwordRef.current.value !== confirmPasswordRef.current.value){
-            setError('Passwords do not match!');
+            return setError('Passwords do not match!');
         }
         try{
             setLoading(true);
