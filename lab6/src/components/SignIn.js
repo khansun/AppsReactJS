@@ -16,7 +16,10 @@ const SignIn = ()=>{
         try{
             setLoading(true);
             setError("");
-            await signIn(emailRef.current.value, passwordRef.current.value);
+            await signIn(emailRef.current.value, passwordRef.current.value).then(()=>{
+                history.push('/signin');
+
+            });
             history.push("/");
 
         }

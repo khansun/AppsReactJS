@@ -20,7 +20,10 @@ const SignUp = ()=>{
         try{
             setLoading(true);
             setError("");
-            await signUp(emailRef.current.value, passwordRef.current.value);
+            await signUp(emailRef.current.value, passwordRef.current.value).then(()=>{
+                history.push('/signin');
+
+            });;
             history.push("/");
 
         }
