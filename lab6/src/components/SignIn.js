@@ -1,10 +1,12 @@
 import {React,useRef, useState} from 'react';
 import {Button, Card, Form, Alert, Container} from 'react-bootstrap';
 import {useAuth} from './../contexts/AuthContext';
+import {Link, useHistory} from  'react-router-dom';
 const SignIn = ()=>{
     const emailRef = useRef();
     const passwordRef = useRef();
     const {signIn} = useAuth();
+    const history = useHistory();
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const handleSubmit = async (e)=>{
@@ -15,6 +17,7 @@ const SignIn = ()=>{
             setLoading(true);
             setError("");
             await signIn(emailRef.current.value, passwordRef.current.value);
+            history.push("/");
 
         }
         catch(error){
@@ -53,7 +56,7 @@ const SignIn = ()=>{
                 </Card.Body>
             </Card>
             <div className = 'w-109 text-center mt-2'>
-                Don't have an account? Sign Up!
+                Don't have an account? <Link to="/signup">Sign Up!</Link> 
             </div>
         </div>
         </Container>
