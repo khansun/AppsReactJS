@@ -7,7 +7,7 @@ const SignUp = ()=>{
     const passwordRef = useRef();
     const confirmPasswordRef = useRef();
     const {signUp} = useAuth();
-    const [error, setError] = useState('');
+    const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const handleSubmit = async (e)=>{
         e.preventDefault();
@@ -17,7 +17,7 @@ const SignUp = ()=>{
         }
         try{
             setLoading(true);
-            setError('');
+            setError("");
             await signUp(emailRef.current.value, passwordRef.current.value);
 
         }
@@ -34,22 +34,28 @@ const SignUp = ()=>{
             <Card>
                 <Card.Body>
                     <h2 className = 'text-center mb-4'>Sign Up</h2>
-                    {error && <Alert variant = 'danger'>{JSON.stringify(error)}</Alert>}
+                    {error?
+                     (<Alert variant = 'danger'>{JSON.stringify(error)}</Alert>
+                     ):(
+                     ""
+                    )}
+                    
+                    
                     <Form onSubmit = {handleSubmit}>
                         <Form.Group id = 'name'>
                             <Form.Label> Name</Form.Label>
                             <Form.Control ref = {nameRef} type = 'text' required/>
                         </Form.Group>
                         <Form.Group id = 'email'>
-                            <Form.Label> Name</Form.Label>
+                            <Form.Label> Email</Form.Label>
                             <Form.Control ref = {emailRef} type = 'email' required/>
                         </Form.Group>
                         <Form.Group id = 'password'>
-                            <Form.Label> Name</Form.Label>
+                            <Form.Label> Password</Form.Label>
                             <Form.Control ref = {passwordRef} type = 'password' required/>
                         </Form.Group>
                         <Form.Group id = 'confirm-password'>
-                            <Form.Label> Name</Form.Label>
+                            <Form.Label> Confirm Password</Form.Label>
                             <Form.Control ref = {confirmPasswordRef} type = 'password' required/>
                         </Form.Group>
                         <Button disabled={loading} className = "w-100" type = 'submit'>

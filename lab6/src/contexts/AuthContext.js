@@ -10,7 +10,7 @@ const useAuth = ()=>{
 const AuthProvider = (props) =>{
     const [currentUser, setCurrentUser] = useState({});
     const signUp = (email, password) =>{
-        return auth.createUserWithEmailPassword(email, password);
+        return auth.createUserWithEmailAndPassword(email, password);
     }
     useEffect(()=>{
        const unsubscribe = auth.onAuthStateChanged((user)=>{
