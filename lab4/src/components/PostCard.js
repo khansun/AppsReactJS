@@ -22,7 +22,11 @@ const PostCard = (props) => {
           {props.author}
         </Text>
       </View>
-      <Text style={{ fontStyle: "italic" }}> {props.title}</Text>
+      <Text style={{ fontStyle: "italic" }}>
+         {props.date.toDate().toTimeString().slice(0,9)}
+         {"                                              "}
+         {props.date.toDate().toDateString().slice(3,15)}
+         </Text>
       <Text
         style={{
           paddingVertical: 10,

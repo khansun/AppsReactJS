@@ -104,6 +104,7 @@ const HomeScreen = (props) => {
                 <PostCard
                   author={item.data.author}
                   title={item.id}
+                  date = {item.data.created_at}
                   body={item.data.body}
                 />
               );
