@@ -44,6 +44,13 @@ const getDataJSON = async (key) => {
     alert(error);
   }
 };
+const mergeData= async(key, value)=>{
+  try{
+      await AsyncStorage.mergeItem(key, value);
+  }catch(error){
+      alert(error);
+  }
+};
 
 const removeData = async (key) => {
   try {
