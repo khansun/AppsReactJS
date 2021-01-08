@@ -38,10 +38,10 @@ const PostCard = (props) => {
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Button
           type="outline"
-          title="  Like (17)"
+          title="  Like"
           icon={<AntDesign name="like2" size={24} color="dodgerblue" />}
         />
-        <Button type="solid" title="Comment (10)" />
+        <Button type="solid" title="Comment" />
       </View>
     </Card>
   );
