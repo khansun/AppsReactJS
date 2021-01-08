@@ -17,9 +17,9 @@ const SignInScreen = (props) => {
         {(auth) => (
           <View style={styles.viewStyle}>
             <Card>
-            <Card.Title>Welcome to 
+          
               {<Card.Title style = {{fontWeight: 'bold', fontSize: 30}}>The Office</Card.Title>}
-              </Card.Title>
+              
             
               <Card.Divider />
               <Input
@@ -52,8 +52,10 @@ const SignInScreen = (props) => {
                     .signInWithEmailAndPassword(Email, Password)
                     .then((userCreds) => {
                       setIsLoading(false);
+                      alert("Signed In user with UID:\n" + userCreds.user.uid);
                       auth.setIsLoggedIn(true);
                       auth.setCurrentUser(userCreds.user);
+                      
                     })
                     .catch((error) => {
                       setIsLoading(false);
