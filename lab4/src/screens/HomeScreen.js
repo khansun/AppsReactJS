@@ -1,144 +1,124 @@
 import React, { useState, useEffect } from "react";
 import {
-  AsyncStorage,
   ScrollView,
   View,
   StyleSheet,
   FlatList,
   ActivityIndicator,
 } from "react-native";
-import {
-  Card,
-  Button,
-  Text,
-  Avatar,
-  Input,
-  Header,
-} from "react-native-elements";
-import { AntDesign, Entypo } from "@expo/vector-icons";
+import { Card, Button, Text, Avatar, Input } from "react-native-elements";
 import PostCard from "./../components/PostCard";
+import HeaderHome from "../components/HeaderHome";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import { AuthContext } from "../providers/AuthProvider";
-import {getDataJSON, storeDataJSON } from "../functions/AsyncStorageFunctions";
-
-import * as firebase from 'firebase';
+import { useNetInfo } from "@react-native-community/netinfo";
+import * as firebase from "firebase";
+import "firebase/firestore";
 
 const HomeScreen = (props) => {
-  
-  const [userPostBody, setUserPostBody ]= useState("");
-  const [totalPost, setTotalPost ]= useState([]); 
-  var today = new Date();
-  var timeNow = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  const input=React.createRef();
-  
+  const netinfo = useNetInfo();
+  if (netinfo.type != "unknown" && !netinfo.isInternetReachable) {
+    alert("No Internet!");
+  }
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [input, setInput] = useState("");
 
-  const getTotalPost = async () => {
-    try {
-      let keys = await AsyncStorage.getAllKeys();
-
-      let posts = [];
-      if (keys != null) {
-        for (let element of keys) {
-          if (element.startsWith("user") ) {
-            let post = await getDataJSON(element);
-            posts.push(post);
-          }
-        }
-        setTotalPost(posts);
-      } else {
-        console.log("post not found");
-
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const loadPosts = async () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection("posts")
+      .orderBy("created_at", "desc")
+      .onSnapshot((querySnapshot) => {
+        let temp_posts = [];
+        querySnapshot.forEach((doc) => {
+          temp_posts.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+        setPosts(temp_posts);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        alert(error);
+      });
   };
- 
-
 
   useEffect(() => {
-    getTotalPost();
+    loadPosts();
   }, []);
 
-
-    return (
-      <AuthContext.Consumer>
-        {(auth) => (
-          <View style={styles.viewStyle}>
-            <Header
-              leftComponent={{
-                icon: "menu",
-                color: "#fff",
-                onPress: function () {
-                  props.navigation.toggleDrawer();
-                },
-              }}
-              centerComponent={{ text: "The Office", style: { color: "#fff" } }}
-              rightComponent={{
-                icon: "lock-outline",
-                color: "#fff",
-                onPress: function ()  {
-                  firebase.auth().signOut().then(()=>{
-                      auth.setIsLoggedIn(false);
-                      auth.setCurrentUser({});
-                      alert("Logged Out");
-                  }).catch((error)=>{
-                      alert(error);
-              })
-              },
-              }}
-            />
-            <Card>
-              <Input
-                ref={input}
-                placeholder="What's On Your Mind?"
-                leftIcon={<Entypo name="pencil" size={24} color="black" />}
-                onChangeText={function (currentInput) {
-                  setUserPostBody(currentInput); }}
-              />
-              <Button 
-              title="Post" type="outline" onPress={function () {
-             var moment = Math.floor(Math.random() * 360);
-            let currentUserPost = {
-              postID: "user"+moment,
-              author: auth.CurrentUser.name,
-              time: timeNow, 
-              body: userPostBody,
-            };
-            storeDataJSON("user"+moment, currentUserPost);
-            getTotalPost();
-            setUserPostBody("");
-            input.current.clear();
-          }} 
+  return (
+    <AuthContext.Consumer>
+      {(auth) => (
+        <View style={styles.viewStyle}>
+          <HeaderHome
+            DrawerFunction={() => {
+              props.navigation.toggleDrawer();
+            }}
           />
-              
-    
-
-            </Card>
-
-            <FlatList
-              data={totalPost} 
-              renderItem={function ({ item }) {
-                return (
-                  <PostCard
-                    postID={item.postID}
-                    author={item.author}
-                    title={item.time}
-                    body={item.body}
-                    navigation={props.navigation}
-                  />
-                );
+          <Card>
+            <Input
+              placeholder="What's On Your Mind?"
+              leftIcon={<Entypo name="pencil" size={24} color="black" />}
+              onChangeText={(currentText) => {
+                setInput(currentText);
               }}
             />
-          </View>
-        )}
-      </AuthContext.Consumer>
-    );
+            <Button
+              title="Post"
+              type="outline"
+              onPress={function () {
+                setLoading(true);
+                firebase
+                  .firestore()
+                  .collection("posts")
+                  .add({
+                    userId: auth.CurrentUser.uid,
+                    body: input,
+                    author: auth.CurrentUser.displayName,
+                    created_at: firebase.firestore.Timestamp.now(),
+                    likes: [],
+                    comments: [],
+                  })
+                  .then(() => {
+                    setLoading(false);
+                    alert("Post created Successfully!");
+                  })
+                  .catch((error) => {
+                    setLoading(false);
+                    alert(error);
+                  });
+              }}
+            />
+          </Card>
+          <ActivityIndicator size="large" color="red" animating={loading} />
+
+          <FlatList
+            data={posts}
+            renderItem={({ item }) => {
+              return (
+                <PostCard
+                  author={item.data.author}
+                  title={item.id}
+                  body={item.data.body}
+                />
+              );
+            }}
+          />
+        </View>
+      )}
+    </AuthContext.Consumer>
+  );
 };
 
 const styles = StyleSheet.create({
   textStyle: {
     fontSize: 30,
-    color: "royalblue",
+    color: "blue",
   },
   viewStyle: {
     flex: 1,
