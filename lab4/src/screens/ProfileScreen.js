@@ -40,7 +40,7 @@ const ProfileScreen = (props) => {
                 onPress={
                   
                   function () {
-                    alert("Delete Profile");
+                    alert(JSON.stringify(auth.CurrentUser));
                   }
                 }
               />
@@ -73,7 +73,7 @@ const ProfileScreen = (props) => {
                   {" "} 
                    </Text>  
                    <Text style = {{textDecorationLine: 'underline'}} >
-                {JSON.stringify(auth.CurrentUser.uid)}
+                {JSON.stringify(auth.CurrentUser.email)}
               </Text>
               </Text>
 
