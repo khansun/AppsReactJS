@@ -5,9 +5,41 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AuthContext } from "../providers/AuthProvider";
 import HeaderHome from "../components/HeaderHome";
 import "firebase/firestore";
-
+import * as firebase from "firebase";
+import Loading from "../components/Loading";
 const ProfileScreen = (props) => {
   const [photoURL, setPhotoURL] = useState("");
+  const [userProfile, setUserProfile] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
+
+  const loadProfile = async (userEmail) => {
+   
+    firebase
+      .firestore()
+      .collection("users")
+      .where("email", "==", userEmail)
+      .onSnapshot((querySnapshot) => {
+        let temp_posts = [];
+        querySnapshot.forEach((doc) => {
+          temp_posts.push({
+            id: doc.id,
+            data: doc.data(),
+          });
+        });
+        setUserProfile(temp_posts);
+       
+      })
+      .catch((error) => {
+        
+        alert(error);
+      });
+  };
+
+  if (loading) {
+    return (<Loading />)
+} else {
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -35,12 +67,23 @@ const ProfileScreen = (props) => {
               <View style={{ justifyContent: "flex-start",marginTop:10, marginBottom: 50 }}>
               <Button
                 type="solid"
-                title=" Delete Profile"
+                title=" Load User Information"
                 icon={<FontAwesome5 name="user" size={20} color="red" />}
                 onPress={
                   
                   function () {
-                    alert(JSON.stringify(auth.CurrentUser));
+                    loadProfile(auth.CurrentUser.email);
+                    var obj = JSON.parse(JSON.stringify(userProfile));
+                    
+                   
+                    
+                  alert(JSON.stringify(userProfile));
+                  try{
+                    alert(obj.id);
+                  }
+                  catch{
+                    alert("Stop");
+                  }
                   }
                 }
               />
@@ -86,6 +129,7 @@ const ProfileScreen = (props) => {
       }
     </AuthContext.Consumer >
   );
+    }
 };
 
 const styles = StyleSheet.create({
