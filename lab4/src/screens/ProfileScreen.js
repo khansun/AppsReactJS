@@ -4,12 +4,10 @@ import { Text, Card, Button, Avatar, Header, Input } from "react-native-elements
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AuthContext } from "../providers/AuthProvider";
 import HeaderHome from "../components/HeaderHome";
-import { storeDataJson, mergeData, removeData } from '../functions/AsyncStorageFunctions';
+import "firebase/firestore";
 
 const ProfileScreen = (props) => {
-  const [Bornon, setBornon] = useState("");
-  const [Livesat, setLivesat] = useState("");
-  const [Worksat, setWorksat] = useState("");
+  const [photoURL, setPhotoURL] = useState("");
   return (
     <AuthContext.Consumer>
       {(auth) => (
@@ -21,54 +19,65 @@ const ProfileScreen = (props) => {
             }}
           />
           <ImageBackground source={require('./../../assets/BG1.jpg')} style={styles.imageStyle}>
+            
             <Card >
-              <Image style={styles.imageStyle1} source={require('./../../assets/User.jpg')} />
+            <View style={{ alignItems: "center", justifyContent: "space-between",marginTop:20}}>
+            <Avatar
+                containerStyle={{ backgroundColor: "red" }}
+                size="xlarge"
+                rounded
+                title =  {auth.CurrentUser.displayName.charAt(0)}
+                onPress = {() => alert("Upload a photo")}
+                
+                activeOpacity={1}
+              />
               <Text style={styles.NameStyle}> {auth.CurrentUser.displayName}   </Text>
-              <View style={{ justifyContent: "center",marginTop:90, marginBottom: 0, }}>
-              </View>
-              <Card.Divider />
-              <Input
-                placeholder='Birthday'
-                onChangeText={
-                  function (currentinput) {
-                    setBornon(currentinput);
-                  }
-                }
-              ></Input>
-
-              <Input
-                placeholder='Address'
-                onChangeText={
-                  function (currentinput) {
-                    setLivesat(currentinput);
-                  }
-                }
-              ></Input>
-
-              <Input
-                placeholder='Designation'
-                onChangeText={
-                  function (currentinput) {
-                    setWorksat(currentinput);
-                  }
-                }
-              ></Input>
-
+              <View style={{ justifyContent: "flex-start",marginTop:10, marginBottom: 50 }}>
               <Button
                 type="solid"
-                title=" Update Details"
-                icon={<FontAwesome5 name="user-edit" size={24} color="white" />}
+                title=" Delete Profile"
+                icon={<FontAwesome5 name="user" size={20} color="red" />}
                 onPress={
-                  async function () {
-                    await mergeData(auth.CurrentUser.email, JSON.stringify({
-                      dateOfBirth: Bornon,
-                      address: Livesat,
-                      workPlace: Worksat,
-                    }))
-                    alert("Relog in to see the update");
+                  
+                  function () {
+                    alert("Delete Profile");
                   }
                 }
               />
+              </View>
+              </View>
+              
+              <View style={{ justifyContent: "flex-start",marginTop:150, marginBottom: 30 }}>
+              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
+                 <Text style = {{fontWeight: 'bold'}} >
+                  Designation:
+                  {" "} 
+                   </Text>  
+                   <Text style = {{textDecorationLine: 'underline'}} >
+                {auth.CurrentUser.email}{'\n'}
+              </Text>
+              </Text>
+              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
+                 <Text style = {{fontWeight: 'bold'}} >
+                  Birthday:
+                  {" "} 
+                   </Text>  
+                   <Text style = {{textDecorationLine: 'underline'}} >
+                {auth.CurrentUser.email} {'\n'}
+              </Text>
+              </Text>
+
+              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
+                 <Text style = {{fontWeight: 'bold'}} >
+                  Address:
+                  {" "} 
+                   </Text>  
+                   <Text style = {{textDecorationLine: 'underline'}} >
+                {JSON.stringify(auth.CurrentUser.uid)}
+              </Text>
+              </Text>
+
+              </View>
 
             </Card>
           </ImageBackground>
@@ -86,6 +95,7 @@ const styles = StyleSheet.create({
   },
   viewStyle: {
     flex: 1,
+    opacity: 1,
     justifyContent: 'center'
   },
   imageStyle: {
