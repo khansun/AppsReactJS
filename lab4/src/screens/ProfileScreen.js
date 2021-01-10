@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ImageBackground, View, ScrollView, StyleSheet, AsyncStorage, Image } from "react-native";
+import { ImageBackground, View, ScrollView, StyleSheet, AsyncStorage, Image,FlatList,
+  ActivityIndicator, } from "react-native";
 import { Text, Card, Button, Avatar, Header, Input } from "react-native-elements";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AuthContext } from "../providers/AuthProvider";
@@ -7,19 +8,18 @@ import HeaderHome from "../components/HeaderHome";
 import "firebase/firestore";
 import * as firebase from "firebase";
 import Loading from "../components/Loading";
+import ProfileCard from "./../components/ProfileCard";
 const ProfileScreen = (props) => {
-  const [photoURL, setPhotoURL] = useState("");
-  const [userProfile, setUserProfile] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+  const [input, setInput] = useState("");
 
-  const loadProfile = async (userEmail) => {
-   
+  const loadPosts = async () => {
+    setLoading(true);
     firebase
       .firestore()
       .collection("users")
-      .where("email", "==", userEmail)
+      .orderBy("email", "desc")
       .onSnapshot((querySnapshot) => {
         let temp_posts = [];
         querySnapshot.forEach((doc) => {
@@ -28,14 +28,15 @@ const ProfileScreen = (props) => {
             data: doc.data(),
           });
         });
-        setUserProfile(temp_posts);
-       
-      })
-      .catch((error) => {
-        
-        alert(error);
+        setPosts(temp_posts);
+        setLoading(false);
       });
   };
+
+  useEffect(() => {
+    loadPosts();
+  }, []);
+
 
   if (loading) {
     return (<Loading />)
@@ -64,22 +65,18 @@ const ProfileScreen = (props) => {
                 activeOpacity={1}
               />
               <Text style={styles.NameStyle}> {auth.CurrentUser.displayName}   </Text>
-              <View style={{ justifyContent: "flex-start",marginTop:10, marginBottom: 50 }}>
+              <View style={{ justifyContent: "flex-start",marginTop:10, marginBottom: 10 }}>
               <Button
                 type="solid"
-                title=" Load User Information"
+                title=" Delete User Profile"
                 icon={<FontAwesome5 name="user" size={20} color="red" />}
                 onPress={
                   
                   function () {
-                    loadProfile(auth.CurrentUser.email);
-                    var obj = JSON.parse(JSON.stringify(userProfile));
                     
-                   
-                    
-                  alert(JSON.stringify(userProfile));
+        
                   try{
-                    alert(obj.id);
+                    alert(JSON.stringify(posts));
                   }
                   catch{
                     alert("Stop");
@@ -90,39 +87,24 @@ const ProfileScreen = (props) => {
               </View>
               </View>
               
-              <View style={{ justifyContent: "flex-start",marginTop:150, marginBottom: 30 }}>
-              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
-                 <Text style = {{fontWeight: 'bold'}} >
-                  Designation:
-                  {" "} 
-                   </Text>  
-                   <Text style = {{textDecorationLine: 'underline'}} >
-                {auth.CurrentUser.email}{'\n'}
-              </Text>
-              </Text>
-              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
-                 <Text style = {{fontWeight: 'bold'}} >
-                  Birthday:
-                  {" "} 
-                   </Text>  
-                   <Text style = {{textDecorationLine: 'underline'}} >
-                {auth.CurrentUser.email} {'\n'}
-              </Text>
-              </Text>
-
-              <Text style={{ paddingHorizontal: 10 ,fontSize: 17}}>
-                 <Text style = {{fontWeight: 'bold'}} >
-                  Address:
-                  {" "} 
-                   </Text>  
-                   <Text style = {{textDecorationLine: 'underline'}} >
-                {JSON.stringify(auth.CurrentUser.email)}
-              </Text>
-              </Text>
-
-              </View>
+              
 
             </Card>
+            <FlatList
+              data={posts}
+            renderItem={({ item }) => {
+              return (
+                <ProfileCard
+                  email={item.data.email}
+                  uid={item.id}
+                  address = {item.data.address}
+                  dob={item.data.dateOfBirth}
+                  work={item.data.workPlace}
+
+                />
+              );
+            }}
+          />
           </ImageBackground>
         </View>
       )

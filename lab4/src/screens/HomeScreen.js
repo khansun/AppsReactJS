@@ -41,10 +41,7 @@ const HomeScreen = (props) => {
         setPosts(temp_posts);
         setLoading(false);
       })
-      .catch((error) => {
-        setLoading(false);
-        alert(error);
-      });
+      ;
   };
 
   useEffect(() => {
