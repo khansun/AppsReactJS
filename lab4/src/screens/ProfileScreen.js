@@ -60,7 +60,7 @@ const ProfileScreen = (props) => {
                 size="xlarge"
                 rounded
                 title =  {auth.CurrentUser.displayName.charAt(0)}
-                onPress = {() => alert("Upload a photo")}
+                onPress = {() => alert("Upload a photo?")}
                 
                 activeOpacity={1}
               />
