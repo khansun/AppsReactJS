@@ -68,15 +68,14 @@ const ProfileScreen = (props) => {
               <View style={{ justifyContent: "flex-start",marginTop:10, marginBottom: 10 }}>
               <Button
                 type="solid"
-                title=" Delete User Profile"
-                icon={<FontAwesome5 name="user" size={20} color="red" />}
+                title=" Show My E-Mail"
+                icon={<FontAwesome5 name="envelope" size={20} color="red" />}
                 onPress={
                   
                   function () {
-                    
-        
+              
                   try{
-                    alert(JSON.stringify(posts));
+                    alert(auth.CurrentUser.email);
                   }
                   catch{
                     alert("Stop");
