@@ -2,28 +2,32 @@ import react from "react";
 import { Link } from "react-router-dom";
 
 const Book = (props) => {
-  const ImageURL = props.data.volumeInfo.imageLinks.thumbnail;
+  const ImageURL = props.data.volumeInfo.imageLinks.smallThumbnail;
   return (
     <div className="col s12 m4">
       <div className="card">
         <div className="card-image">
           {ImageURL == null ? (
             <img
-              src="https://picsum.photos/200/300"
-              alt=""
-              style={{ width: "100", height: "200" }}
+            src="https://picsum.photos/250/250"
+            alt=""
+            style={{ width: 250, height: 250 }}
             />
           ) : (
             <img
               src={ImageURL}
               alt=""
-              style={{ width: "100", height: "200" }}
+              style={{ width: 150, height: 220 }}
             />
           )}
 
-          <span className="card-title">{props.data.volumeInfo.title}</span>
+          
         </div>
-        <div className="card-content">{props.data.volumeInfo.authors}</div>
+        <span className="card-title">{props.data.volumeInfo.title}</span>
+        <div className="card-content">{props.data.volumeInfo.authors}{",  "} {props.data.volumeInfo.publishedDate}
+        
+        </div>
+
         <div className="card-action">
           <Link
             to={{

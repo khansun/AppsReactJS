@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { Button } from 'reactstrap';
-const Searchbar = (props) => {
-  const [dropdownOpen, setOpen] = useState(false);
+import React from 'react';
 
-  const toggle = () => setOpen(!dropdownOpen);
+const Searchbar = (props) => {
+  
   return (
     
     <div >

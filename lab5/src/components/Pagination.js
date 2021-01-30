@@ -6,7 +6,7 @@ const Pagination = (props) => {
     for (let i = 1, index=0; i <= totalPages; i++, index=index+20) {
       page_links.push(
         <button
-          className="wave-effect active"
+          type="button" class="btn btn-primary"
           key={index}
           onClick={() => {
             props.nextPage(index);
