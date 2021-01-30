@@ -4,6 +4,8 @@ import BookList from "./components/BookList";
 import Pagination from "./components/Pagination";
 import Searchbar from "./components/SearchBar";
 
+
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [books, setBooks] = useState([]);
@@ -15,16 +17,7 @@ const App = () => {
     await getBooksByTerm(searchTerm, setBooks, currentIndex, setTotalItems);
   };
 
-  const handleSortRelevance = async (event) => {
-    event.preventDefault();
-    await getBooksByTermSorted(
-      searchTerm,
-      setBooks,
-      currentIndex,
-      setTotalItems,
-      "relevance"
-    );
-  };
+
 
   const handleSortNewest = async (event) => {
     event.preventDefault();
@@ -49,12 +42,14 @@ const App = () => {
 
   return (
     <div>
+      
       <Searchbar
         handleChange={handleChange}
         handleSubmit={handleSubmit}
-        handleSortRelevance={handleSortRelevance}
         handleSortNewest={handleSortNewest}
       />
+    
+      
       <BookList books={books} />
       {totalItems > 20 ? (
         <Pagination

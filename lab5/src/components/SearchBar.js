@@ -1,10 +1,15 @@
-import React from "react";
-
+import React, { useState } from 'react';
+import { Button } from 'reactstrap';
 const Searchbar = (props) => {
+  const [dropdownOpen, setOpen] = useState(false);
+
+  const toggle = () => setOpen(!dropdownOpen);
   return (
-    <div className="container">
+    
+    <div >
       
       <div className="row">
+        
         <section className="col s6 offset-s3">
           <form action="" onSubmit={props.handleSubmit}>
             <div className="input-field">
@@ -13,19 +18,36 @@ const Searchbar = (props) => {
                 type="text"
                 onChange={props.handleChange}
                 
+              
               />
-              <button class="btn btn-success btn-lg float-right" 
-                        type="submit"
+              
+               
+                
+                <button type="button" class="btn btn-primary" 
+                onClick={props.handleSortNewest}>Show Newest First
+                </button>
+                <span > &emsp; &emsp; &emsp;
+                   &emsp; &emsp; &emsp; &emsp;
+                    &emsp; &emsp; &emsp; &emsp;
+                     &emsp; &emsp; &emsp; &emsp;
+                      &emsp; &emsp; &emsp; &emsp;
+                      &emsp; &emsp; &emsp; &emsp;
+                      &emsp; 
+                   </span>
+                <button type="submit" class="btn btn-primary"
                         onClick={props.handleSubmit}>
                          Search
                     
                 </button> 
+                
+                
             </div>
             
             
           </form>
+          
         </section>
-       
+        
       </div>
     </div>
   );
