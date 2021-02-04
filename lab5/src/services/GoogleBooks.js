@@ -30,8 +30,15 @@ const getBooksByTermSorted = (SearchTerm, setBooks, start_index, setTotalItems, 
       orderBy: sort_by
     },
   }).then((response) => {
+    try {
     setBooks(response.data.items);
     setTotalItems(response.data.totalItems);
+      
+    } catch (error) {
+      console.log(error)
+      
+    }
+    
   });
 };
 

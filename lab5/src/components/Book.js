@@ -2,7 +2,15 @@ import react from "react";
 import { Link } from "react-router-dom";
 
 const Book = (props) => {
-  const ImageURL = props.data.volumeInfo.imageLinks.smallThumbnail;
+  var ImageURL = "https://images.app.goo.gl/eVvmQmAy2AZvgEyQ8"
+  try {
+   ImageURL = props.data.volumeInfo.imageLinks.thumbnail;
+  } catch (error) {
+    console.log(error);
+    
+  }
+  
+  
   return (
     <div className="col s12 m4">
       <div className="card">
